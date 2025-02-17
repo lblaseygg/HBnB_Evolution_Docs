@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
     class BaseModel {
         +UUID id
@@ -12,37 +13,27 @@ classDiagram
         +string password
         +string first_name
         +string last_name
-        +list places
-        +list reviews
-        +create_place()
-        +add_review()
     }
 
     class Place {
-        +UUID id
+        +UUID user_id
         +string name
         +string description
         +int number_rooms
         +int number_bathrooms
-        +float price_per_night
-        +User owner
+        +float price_by_night
+        +float latitude
+        +float longitude
         +list amenities
-        +list reviews
-        +add_amenity()
-        +add_review()
     }
 
     class Review {
-        +UUID id
-        +User user
-        +Place place
+        +UUID user_id
+        +UUID place_id
         +string text
-        +int rating
-        +update_text()
     }
 
     class Amenity {
-        +UUID id
         +string name
     }
 
@@ -51,8 +42,9 @@ classDiagram
     BaseModel <|-- Review
     BaseModel <|-- Amenity
 
-    User --> Place : owns >
-    User --> Review : writes >
-    Place --> Review : has >
-    Place --> Amenity : has >
+    User "1" --> "many" Place : owns
+    User "1" --> "many" Review : writes
+    Place "1" --> "many" Review : receives
+    Place "many" --o "many" Amenity : has
+```
 
